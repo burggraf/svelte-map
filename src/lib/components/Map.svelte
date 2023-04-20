@@ -124,6 +124,7 @@
             if (iconObject.width) img.setAttribute('width', iconObject.width)
             if (iconObject.height) img.setAttribute('height', iconObject.height)
             if (iconObject.onclick) img.onclick = iconObject.onclick;
+            if (iconObject.onclick) img.style.cursor = 'pointer';
             options.element = img;
         } else {
             const icon = document.createElement('ion-icon');
@@ -176,7 +177,8 @@
         z-index: 1000; 
         color: var(--ion-color-light-contrast);
         background-color: var(--ion-color-light);
-        border-radius: 5px;        
+        border-radius: 5px; 
+        cursor: pointer;       
     }
 	/* .map-loader {
 		margin-left: 40%;

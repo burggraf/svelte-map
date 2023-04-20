@@ -1,6 +1,6 @@
 {
   "name": "@burggraf/svelte-map",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "types": "components/Map.svelte.d.ts",
   "scripts": {
     "dev": "vite dev",
