@@ -12,8 +12,8 @@
         size?: "large" | "small" | "medium";
         width?: string;
         height?: string;
-        fontSize?: string;
         onclick?: any;
+        pop: any;
     }
     interface MapOptions {
         center?: maplibregl.LngLatLike;
@@ -113,6 +113,15 @@
 
 	})
 
+    // const popup = new maplibregl.Popup()
+    //     .setLngLat([metadata.Longitude, metadata.Latitude])
+    //     .setDOMContent(el)
+    //   popup.addTo(map)
+    //   popupOpen = true
+    //   popup.on('close', (e: any) => {
+    //     popupOpen = false
+    //   })
+
 	controller.addMarker = (lngLat: maplibregl.LngLatLike, 
                             iconObject: IconObject, 
                             options: maplibregl.MarkerOptions = {}) => {
@@ -123,8 +132,17 @@
             img.setAttribute('src', iconObject.src || '');
             if (iconObject.width) img.setAttribute('width', iconObject.width)
             if (iconObject.height) img.setAttribute('height', iconObject.height)
-            if (iconObject.onclick) img.onclick = iconObject.onclick;
-            if (iconObject.onclick) img.style.cursor = 'pointer';
+            if (iconObject.pop) {
+                img.onclick = () => {
+                    const popup = new maplibregl.Popup({closeButton: true})
+                    .setLngLat(lngLat)
+                    .setDOMContent(iconObject.pop)
+                    popup.addTo(map)
+                }
+            } else {
+                if (iconObject.onclick) img.onclick = iconObject.onclick;
+            }
+            if (iconObject.pop || iconObject.onclick) img.style.cursor = 'pointer';
             options.element = img;
         } else {
             const icon = document.createElement('ion-icon');
@@ -136,9 +154,6 @@
             }
             if (iconObject.src) {
                 icon.setAttribute('src', iconObject.src);
-            }
-            if (iconObject.fontSize) {
-                icon.style.fontSize = iconObject.fontSize;
             }
             options.element = icon;
         }
