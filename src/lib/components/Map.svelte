@@ -19,11 +19,11 @@
         center?: maplibregl.LngLatLike;
         zoom?: number;
         style?: string;
-        onclick?: any;
     }
 	let map: maplibregl.Map
     export let controller: any = {}
     export let mapOptions: MapOptions = {}
+    export let onclick: any = () => {}
     let mapStyle = 'streets-v2';
 
     const mapStyles = ['streets-v2','openstreetmap', 'winter', 'hybrid', 'satellite', 
@@ -46,8 +46,8 @@
 			center: mapOptions.center || [0,0], // starting position [lng, lat]
 			zoom: mapOptions.zoom || 14, // starting zoom
 		})
-        if (mapOptions.onclick) {
-            map.on('click', mapOptions.onclick)
+        if (onclick) {
+            map.on('click', onclick)
         }
         const loadMapImage = (id: string, img?: string) => {
             map.loadImage(
