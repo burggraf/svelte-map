@@ -178,7 +178,9 @@
         color: var(--ion-color-light-contrast);
         background-color: var(--ion-color-light);
         border-radius: 5px; 
-        cursor: pointer;       
+    }
+    .map {
+        cursor: pointer;
     }
 	/* .map-loader {
 		margin-left: 40%;
