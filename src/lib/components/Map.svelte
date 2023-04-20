@@ -5,9 +5,14 @@
 	import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 	import { onMount } from 'svelte'
     interface IconObject {
-        icon: string;
+        icon?: string;
+        type?: string;
+        src?: string;
         color?: string;
         size?: "large" | "small" | "medium";
+        width?: string;
+        height?: string;
+        fontSize?: string;
     }
     interface MapOptions {
         center?: maplibregl.LngLatLike;
@@ -108,12 +113,28 @@
                             options: maplibregl.MarkerOptions = {}) => {
         // console.log('addMarker', lngLat, options, iconObject)
 
-        const icon = document.createElement('ion-icon');
-        icon.setAttribute('size', iconObject.size || 'large');
-        icon.setAttribute('color', iconObject.color || 'dark');
-        //icon.setAttribute('style','color: darkgreen;');
-        icon.setAttribute('icon', iconObject.icon);
-        options.element = icon;
+        if (iconObject.type === 'img') {
+            const img = document.createElement('img');
+            img.setAttribute('src', iconObject.src || '');
+            if (iconObject.width) img.setAttribute('width', iconObject.width)
+            if (iconObject.height) img.setAttribute('height', iconObject.height)
+            options.element = img;
+        } else {
+            const icon = document.createElement('ion-icon');
+            icon.setAttribute('size', iconObject.size || 'large');
+            icon.setAttribute('color', iconObject.color || 'dark');
+            //icon.setAttribute('style','color: darkgreen;');
+            if (iconObject.icon) {
+                icon.setAttribute('icon', iconObject.icon);
+            }
+            if (iconObject.src) {
+                icon.setAttribute('src', iconObject.src);
+            }
+            if (iconObject.fontSize) {
+                icon.style.fontSize = iconObject.fontSize;
+            }
+            options.element = icon;
+        }
         const marker = new maplibregl.Marker(options)
         .setLngLat(lngLat)
         .addTo(map);
